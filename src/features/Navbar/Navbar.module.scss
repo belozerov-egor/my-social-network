@@ -1,0 +1,41 @@
+@import '../../common/utils/styles/mixin';
+
+
+.nav {
+  grid-area: n;
+  background: rgb(175, 59, 72);
+  padding: 30px;
+
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 5px;
+  position: relative;
+
+  svg {
+    padding-right: 8px;
+  }
+
+  a {
+    color: wheat;
+    text-decoration: none;
+  }
+
+  a.activeLink {
+    color: gold;
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: gold;
+    }
+  }
+  @include borderBottomOnHover(gold);
+
+}

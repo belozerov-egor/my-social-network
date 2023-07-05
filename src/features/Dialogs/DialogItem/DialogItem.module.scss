@@ -1,0 +1,34 @@
+@import '../../../common/utils/styles/mixin';
+
+.nameBlock {
+  width: 50%;
+  padding: 24px;
+  background-color: #986e6e;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+.linkBlock {
+  display: flex;
+  align-items: center;
+  svg {
+    margin-right: 10px;
+  }
+}
+  a {
+    &:hover {
+      color: gold;
+    svg path {
+      fill: gold;
+    }
+    }
+  }
+  a.activeLink {
+    color: gold;
+    svg path {
+      fill: gold;
+    }
+  }
+
+}
+
