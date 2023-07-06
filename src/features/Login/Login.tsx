@@ -23,12 +23,14 @@ const Login = (props: LoginType) => {
 
     return (
         <div className={style.loginBlock}>
-            <div>
-                <LoginInfo/>
-            </div>
-            <div>
-                <h1>LOGIN</h1>
-                <LoginReduxForm onSubmit={onSubmit}/>
+            <div className={style.formBlock}>
+                <div>
+                    <LoginInfo/>
+                </div>
+                <div className={style.loginFormBlock}>
+                    <h1>Вход</h1>
+                    <LoginReduxForm onSubmit={onSubmit}/>
+                </div>
             </div>
         </div>
     );

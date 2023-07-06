@@ -6,3 +6,10 @@
 .formControl.error span {
     color: red;
 }
+.inputBlock {
+    display: flex;
+    flex-direction: column;
+}
+.errorBlock {
+    height: 5px;
+}

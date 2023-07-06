@@ -1,5 +1,5 @@
 import React, {FC} from "react";
-import styles from "./FormControls.module.css"
+import styles from "./FormControls.module.scss"
 
 type TextareaProps = {
     input?: {
@@ -59,7 +59,7 @@ export const Input: FC<InputType> = ({input, meta, placeholder, ...props}) => {
             <div>
                 <input {...input} {...props} placeholder={placeholder} value={input.value}/>
             </div>
-            {showError && <span>some error!!</span>}
+            <div className={styles.errorBlock}>{showError && <span>some error!!</span>}</div>
         </div>
     )
 }
