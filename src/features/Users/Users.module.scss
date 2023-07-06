@@ -1,0 +1,41 @@
+@import '../../common/utils/styles/colors';
+
+.usersBlock {
+    overflow: auto;
+    .userCardsBlock {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+    .userBlock {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 5px;
+        border: 1px solid salmon;
+        background-color: $cardColor;
+        color: white;
+        a {
+            &:hover {
+                svg path{
+                    fill: gold;
+                }
+
+            }
+        }
+        img {
+            width: 130px;
+        }
+        svg path{
+            fill: red;
+        }
+
+        span {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+
+

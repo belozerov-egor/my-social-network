@@ -1,7 +1,7 @@
 import React from 'react';
 import {UsersType} from "./users-reducer";
-import {UsersFuncional} from "./UsersFuncional";
-import preload from "../../assets/images/Reload.svg";
+import {Users} from "./Users";
+import preload from "../../assets/images/loader.gif";
 
 
 type PropsType = {
@@ -92,7 +92,7 @@ export class UsersApiComponent extends React.Component<PropsType> {
 
         return <>
             {this.props.isFetching && <img src={preload} alt={'preload'}/>}
-            <UsersFuncional
+            <Users
                 totalUsersCount={this.props.totalUsersCount}
                 pageSize={this.props.pageSize}
                 users={this.props.users}

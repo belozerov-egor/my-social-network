@@ -1,7 +1,7 @@
 import React, {FC} from "react";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import {Input} from "../../common/components/FormControls/FormControls";
-import {required} from "../../common/utils/validator/validator";
+import {Input} from "../../../common/components/FormControls/FormControls";
+import {required} from "../../../common/utils/validator/validator";
 
 export type FormDataType = {
     login: string

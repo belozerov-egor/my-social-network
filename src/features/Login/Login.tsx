@@ -1,14 +1,11 @@
 import React, {FC} from 'react';
-import {Field, InjectedFormProps, reduxForm} from "redux-form";
-
-import {required} from "../../common/utils/validator/validator";
-import {Input} from "../../common/components/FormControls/FormControls";
 import {connect} from "react-redux";
 import {login} from "../../app/auth-reducer";
-import {FormDataType, LoginReduxForm} from './LoginForm';
+import {FormDataType, LoginReduxForm} from './LoginForm/LoginForm';
 import {AppStateType} from "../../app/redux-store";
 import {Redirect} from "react-router-dom";
-
+import style from "./Login.module.scss"
+import {LoginInfo} from "./LoginInfo/LoginInfo";
 
 
 type LoginType = {
@@ -25,9 +22,14 @@ const Login = (props: LoginType) => {
     }
 
     return (
-        <div>
-            <h1>LOGIN</h1>
-            <LoginReduxForm onSubmit={onSubmit}/>
+        <div className={style.loginBlock}>
+            <div>
+                <LoginInfo/>
+            </div>
+            <div>
+                <h1>LOGIN</h1>
+                <LoginReduxForm onSubmit={onSubmit}/>
+            </div>
         </div>
     );
 };

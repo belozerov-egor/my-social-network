@@ -34,7 +34,7 @@ const initialState: StateType = {
     // {id: 3, followed: true, name: 'Buch', status: "Hello", location: {city: 'Yaroslavl', country: 'Russia'}},
     // {id: 4, followed: true, name: 'Lutik', status: "Hello", location: {city: 'Yaroslavl', country: 'Russia'}},
   ],
-  pageSize: 25,
+  pageSize: 24,
   totalUsersCount: 0,
   currentPage: 1,
   isFetching: false,

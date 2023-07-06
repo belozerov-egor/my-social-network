@@ -1,93 +1,68 @@
-import React, {FC} from 'react';
-import {StateType, UsersType} from "./users-reducer";
-import axios from "axios";
-
-
+import React from 'react';
+import {UsersType} from "./users-reducer";
+import {NavLink} from "react-router-dom";
+import {Pagination} from "../../common/components/Paginator/Paginator";
+import {SvgSelector} from "../../common/components/svgSelector/SvgSelector";
+import userIcon from "../../assets/images/profile.svg"
+import style from "./Users.module.scss"
 type PropsType = {
     users: UsersType[]
-    follow: (id: number, followed: boolean) => void
-    setUsers: (users: UsersType[]) => void
+    // follow: (id: number, followed: boolean) => void
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
+    onPageChanged: (page: number) => void
+    onPageSize: (page: number) => void
+    followingInProgress: number[]
+    toggleIsFollowing: (disabled: boolean, id: number) => void
+    followTC: (id: number, followed: boolean)=>void
+    unFollowTC: (id: number, followed: boolean)=>void
 }
 
 export const Users = (props: PropsType) => {
-    if (props.users.length === 0) {
-        axios.get("https://social-network.samuraijs.com/api/1.0/users").then(response=>
-            props.setUsers(response.data.items))
-        // props.setUsers([
-        //     {
-        //         id: 1,
-        //         photo: "https://avatars.mds.yandex.net/i?id=dfdfb66dc782b09172007c5dc7ce548c0fcddc54-9053045-images-thumbs&n=13",
-        //         followed: false,
-        //         name: 'Egor',
-        //         status: "Hello",
-        //         location: {city: 'Yaroslavl', country: 'Russia'}
-        //     },
-        //     {
-        //         id: 2,
-        //         photo: "https://avatars.mds.yandex.net/i?id=dfdfb66dc782b09172007c5dc7ce548c0fcddc54-9053045-images-thumbs&n=13",
-        //         followed: true,
-        //         name: 'Julia',
-        //         status: "Hello",
-        //         location: {city: 'Yaroslavl', country: 'Russia'}
-        //     },
-        //     {
-        //         id: 3,
-        //         photo: "https://avatars.mds.yandex.net/i?id=dfdfb66dc782b09172007c5dc7ce548c0fcddc54-9053045-images-thumbs&n=13",
-        //         followed: true,
-        //         name: 'Buch',
-        //         status: "Hello",
-        //         location: {city: 'Yaroslavl', country: 'Russia'}
-        //     },
-        //     {
-        //         id: 4,
-        //         photo: "https://avatars.mds.yandex.net/i?id=dfdfb66dc782b09172007c5dc7ce548c0fcddc54-9053045-images-thumbs&n=13",
-        //         followed: true,
-        //         name: 'Lutik',
-        //         status: "Hello",
-        //         location: {city: 'Yaroslavl', country: 'Russia'}
-        //     },
-        //     {
-        //         id: 5,
-        //         photo: "https://avatars.mds.yandex.net/i?id=dfdfb66dc782b09172007c5dc7ce548c0fcddc54-9053045-images-thumbs&n=13",
-        //         followed: false,
-        //         name: 'Sweta',
-        //         status: "Hello",
-        //         location: {city: 'Yaroslavl', country: 'Russia'}
-        //     },
-        // ])
+    const onClickHandler = (id: number, followed: boolean)=> {
+        props.toggleIsFollowing(true, id)
+        followed
+            ? props.unFollowTC(id, followed)
+            : props.followTC(id, followed)
     }
-
-
     return (
-        <div>
+        <div className={style.usersBlock}>
             <div>
-                12345
+              <Pagination page={props.currentPage}
+                          pageCount={props.pageSize}
+                          totalItemsCount={props.totalUsersCount}
+                          onPageCallBack={props.onPageChanged}
+                          onPageCountCallBack={props.onPageSize}/>
+
             </div>
+            <div className={style.userCardsBlock}>
             {props.users.map(el => <div key={el.id}>
-                    <span>
+
+
+                    <div className={style.userBlock}>
                         <div>
-                            <img src={el.photos.small != null ?el.photos.small : "https://avatars.mds.yandex.net/i?id=f06cfbd960af17ee83248e9edb6212af-3986807-images-thumbs&n=13"} alt="" style={{width: "130px"}}/>
+                            <NavLink to={'/profile/' + el.id}>
+                                {el.photos.small != null
+                                    ?  <img
+                                        src={el.photos.small}
+                                        alt="иконка профиля"/>
+                                    : <SvgSelector svgName={"UserIcon"}/>
+                                }
+                            </NavLink>
                         </div>
+                            <span>
+                            <div>{el.name}</div>
+                                {/*<div>{el.status}</div>*/}
+                        </span>
                         <div>
-                            <button onClick={() => props.follow(el.id, el.followed)}>
+                            <button disabled={props.followingInProgress.some(id => id === el.id)} onClick={() => onClickHandler(el.id, el.followed)}>
                                 {el.followed ? "Follow" : "Unfollow"}
                             </button>
                         </div>
-                    </span>
-                <span>
-                        <span>
-                            <div>{el.name}</div>
-                            <div>{el.status}</div>
-                        </span>
-                    <span>
-                        <div>{"el.location.country"}</div>
-                        <div>{"el.location.city"}</div>
-                    </span>
-                    </span>
-
-
+                    </div>
             </div>)}
-
+            </div>
         </div>
     );
 };

@@ -4,7 +4,7 @@ import {ProfileUserType} from "../../../redux/store";
 import preload from "../../../assets/images/Reload.svg";
 import ProfileStatus from "./ProfileStatus/ProfileStatus";
 import {SvgSelector} from "../../../common/components/svgSelector/SvgSelector";
-
+import userIcon from "../../../assets/images/profile.svg"
 type PropsType= {
     profile: ProfileUserType| null
     status: string
@@ -20,7 +20,7 @@ const ProfileInfo = (props: PropsType) => {
         <div>
             <div className={style.descriptionBlock}>
                 <div className={style.imgBlock}>
-                <img src={props.profile.photos.large} alt="фото"/>
+                <img src={props.profile.photos.large ? props.profile.photos.large : userIcon} alt="фото"/>
                 </div>
                 <span className={style.name}>{props.profile.fullName}</span>
                 <ProfileStatus updateStatusTC={props.updateStatusTC} status={props.status}/>
