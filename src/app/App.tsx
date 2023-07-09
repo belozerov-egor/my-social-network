@@ -1,6 +1,6 @@
 import React, {ComponentType} from "react";
 import style from "./App.module.scss";
-import {Route, withRouter} from "react-router-dom";
+import {Redirect, Route, withRouter} from "react-router-dom";
 import Navbar from "../features/Navbar/Navbar";
 import HeaderContainer from "../features/Header/HeaderContainer";
 import Login from "../features/Login/Login";
@@ -13,12 +13,12 @@ import {setInitializedApp} from "./app-reducer";
 import {AppStateType} from "./redux-store";
 import preload from "../assets/images/Reload.gif";
 
-type MapStateToPropsType ={
+type MapStateToPropsType = {
     initialized: boolean
 }
 
 type PropsType = MapStateToPropsType & {
-    setInitializedApp: ()=> void
+    setInitializedApp: () => void
 }
 
 class App extends React.Component<PropsType> {
@@ -27,9 +27,9 @@ class App extends React.Component<PropsType> {
     }
 
     render() {
-if (!this.props.initialized){
-    return <img src={preload} alt={'preload'}/>
-}
+        if (!this.props.initialized) {
+            return <img src={preload} alt={'preload'}/>
+        }
 
         return (
             <div className={style.appWrapper}>
@@ -68,6 +68,7 @@ if (!this.props.initialized){
                             />
                         )}
                     />
+                    <Route exact path="/my-social-network" render={() => <Redirect to="/profile"/>}/>
                 </div>
             </div>
         );

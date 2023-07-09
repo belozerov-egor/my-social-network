@@ -1,14 +1,14 @@
-import {ActionsType, ProfilePageType, ProfileUserType} from "../../redux/store";
+import {ActionsType, PhotosType, ProfilePageType, ProfileUserType} from "../../redux/store";
 import {profileAPI} from "../../api/api";
 import {Dispatch} from "redux";
 
 
 const initialState: ProfilePageType = {
     posts: [
-        {id: 1, message: "Hi, how are you?", likesCount: 12},
-        {id: 2, message: "It's my first post", likesCount: 11},
-        {id: 3, message: "Blabla", likesCount: 11},
-        {id: 4, message: "Dada", likesCount: 11},
+        {id: 1, message: "Это мой первый пост", likesCount: 12},
+        {id: 2, message: "Мама, я в инкубаторе", likesCount: 11},
+        {id: 3, message: "Блабла", likesCount: 11},
+        {id: 4, message: "Пропсы мне только снятся", likesCount: 11},
     ],
     profile: null,
     status:"Заглушка"
@@ -22,7 +22,7 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
         case "ADD-POST":
             let newPost = {
                 id: 5,
-                message: action.newValue,
+                message: action.payload.newValue,
                 likesCount: 0,
             };
             return {...state, posts: [newPost, ...state.posts]}
@@ -32,22 +32,32 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
         case "SET-STATUS": {
             return {...state, status: action.status}
         }
+        case "UPDATE-PHOTO-SUCCESS":{
+            // @ts-ignore
+            return {...state, profile: {
+                ...state.profile, photos: action.payload.photos
+                }}
+        }
         default:
             return state
     }
 }
 
 export type AddPostActionType = ReturnType<typeof addPost>
-
 export type UpdateNewPostTextType = ReturnType<typeof updateNewPostText>
 export type SetUserProfileType = ReturnType<typeof setUserProfile>
 export type SetStatusType = ReturnType<typeof setStatus>
 export type UpdateStatusType = ReturnType<typeof updateStatus>
+export type UpdatePhotoType = ReturnType<typeof updatePhotoSuccess>
 
-export const addPost = (newValue: string) => ({type: "ADD-POST", newValue} as const)
-
-
-//Так же как и сверху, только без Return
+export const addPost = (newValue: string) => {
+    return {
+            type: "ADD-POST",
+            payload: {
+                newValue
+            }
+        }as const
+     }
 export const updateNewPostText = (newText: string) => {
 
     return {
@@ -81,6 +91,15 @@ export const updateStatus = (status: string)=> {
     }as const
 }
 
+export const updatePhotoSuccess= (photos: PhotosType)=> {
+    return {
+        type: "UPDATE-PHOTO-SUCCESS",
+        payload: {
+            photos
+        }
+    }as const
+}
+
 export const getProfileTC = (userId: string) => async (dispatch: Dispatch) => {
    const result = await profileAPI.getProfile(userId)
     try {
@@ -98,5 +117,17 @@ export const getStatusTC = (userId: string) => async (dispatch: Dispatch)=> {
 export const updateStatusTC = (status: string) => async (dispatch: Dispatch)=> {
     await profileAPI.updateStatus(status)
     dispatch(setStatus(status))
+
+}
+export const updatePhoto = (photo: File) => async (dispatch: Dispatch)=> {
+    try {
+        const result = await profileAPI.updatePhoto(photo)
+        if (result.data.resultCode === 0){
+            dispatch(updatePhotoSuccess(result.data.data.photos))
+        }
+    }catch (e){
+        console.log(e)
+    }
+
 
 }

@@ -57,7 +57,7 @@ export const Users = (props: PropsType) => {
                         </span>
                         <div>
                             <button disabled={props.followingInProgress.some(id => id === el.id)} onClick={() => onClickHandler(el.id, el.followed)}>
-                                {el.followed ? "Follow" : "Unfollow"}
+                                {el.followed ? "Отписаться" : "Подписаться"}
                             </button>
                         </div>
                     </div>

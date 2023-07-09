@@ -8,12 +8,10 @@
   color: ghostwhite;
   .formBlock {
     display: flex;
-    align-items: center;
     justify-content: center;
     background-color: $cardColor;
     width: 70%;
-    height: 40%;
-    padding: 0 40px;
+    padding: 40px;
     border-radius: 10px;
   }
   .loginFormBlock {

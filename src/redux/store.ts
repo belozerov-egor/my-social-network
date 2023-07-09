@@ -2,7 +2,7 @@ import {
     AddPostActionType,
     SetStatusType,
     SetUserProfileType,
-    UpdateNewPostTextType,
+    UpdateNewPostTextType, UpdatePhotoType,
     UpdateStatusType
 } from "../features/Profile/profile-reducer";
 import {AddMessageType} from "../features/Dialogs/dialogs-reducer";
@@ -127,6 +127,7 @@ export type ActionsType =
     | ToggleIsFollowingType
     | SetStatusType
     | UpdateStatusType
+    | UpdatePhotoType
 
 
 export type StoreType = {
@@ -167,25 +168,27 @@ export type ProfilePageType = {
 };
 
 export type ProfileUserType = {
-    "aboutMe": string
-    "contacts": {
-        "facebook": string
-        "website": string
-        "vk": string
-        "twitter": string
-        "instagram": string
-        "youtube": string
-        "github": string
-        "mainLink": string
+    aboutMe: string
+    contacts: {
+        facebook: string
+        website: string
+        vk: string
+        twitter: string
+        instagram: string
+        youtube: string
+        github: string
+        mainLink: string
     },
-    "lookingForAJob": boolean
-    "lookingForAJobDescription": string
-    "fullName": string
-    "userId": number
-    "photos": {
-        "small": string
-        "large": string
-    }
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    userId: number
+    photos: PhotosType
+}
+
+export type PhotosType = {
+    small: string
+    large: string
 }
 
 export type DialogsPageType = {

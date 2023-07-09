@@ -11,9 +11,9 @@ const instance = axios.create({
 
 export const usersAPI = {
     fetchUsers: (page: number, pageSize: number) => {
-    
+
          return  instance.get(`users?page=${page}&count=${pageSize}`);
-       
+
     },
     follow: async (id: number) => {
         try {
@@ -42,6 +42,15 @@ export const profileAPI = {
     },
     updateStatus(status: string) {
         return instance.put('profile/status', {status})
+    },
+    updatePhoto(photo: File) {
+        const formData = new FormData();
+        formData.append('image', photo)
+        return instance.put('profile/photo', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
     }
 }
 
@@ -61,11 +70,4 @@ export const authApi = {
     }
 }
 
-// export const fetchUsers = async (page: number, pageSize: number) => {
-//     try {
-//         const response = await instance.get(`users?page=${page}&count=${pageSize}`);
-//         return response.data;
-//     } catch (error) {
-//         console.error(error);
-//     }
-// };
+
