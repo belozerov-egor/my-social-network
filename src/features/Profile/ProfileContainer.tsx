@@ -1,7 +1,7 @@
 import {connect} from "react-redux";
 import Profile from "./Profile";
 import React, {ComponentType} from "react";
-import {getProfileTC, getStatusTC, updatePhoto, updateStatusTC} from "./profile-reducer";
+import {getProfileTC, getStatusTC, updatePhoto, updateProfile, updateStatusTC} from "./profile-reducer";
 import {ProfileUserType} from "../../redux/store";
 import {AppStateType} from "../../app/redux-store";
 import {RouteComponentProps, withRouter} from "react-router-dom";
@@ -21,6 +21,7 @@ type MapDispatchType = {
     getStatusTC: (userId: string)=> void
     updateStatusTC: (status: string)=> void
     updatePhoto: (photo: File)=> void
+    updateProfile: (profile: ProfileUserType)=> void
 }
 
 type ParamType = {
@@ -55,7 +56,9 @@ class ProfileContainer extends React.Component<WithPropsType> {
         return <Profile {...this.props}
                         profile={this.props.profile}
                         isOwner = {!this.props.match.params.userId}
-                        updatePhoto = {this.props.updatePhoto} />;
+                        updatePhoto = {this.props.updatePhoto}
+                        updateProfile={this.props.updateProfile}
+        />;
     }
 
 }
@@ -70,7 +73,7 @@ let mapStateToProps = (store: AppStateType): MapStateType => {
 
 }
 export default compose<ComponentType>(
-    connect(mapStateToProps, {getProfileTC, getStatusTC, updateStatusTC, updatePhoto}),
+    connect(mapStateToProps, {getProfileTC, getStatusTC, updateStatusTC, updatePhoto, updateProfile}),
     withRouter,
     withAuthRedirect
 )

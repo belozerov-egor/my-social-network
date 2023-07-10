@@ -12,6 +12,7 @@ type PropsType = {
     updateStatusTC: (status: string)=> void
     isOwner: boolean;
     updatePhoto: (photo: File)=> void
+    updateProfile: (profile: ProfileUserType)=> void
 }
 
 const Profile = (props: PropsType) => {
@@ -31,7 +32,7 @@ const Profile = (props: PropsType) => {
                              isOwner={props.isOwner}
 
                 />
-                <ProfileEditForm  profile={props.profile} edit={edit} updatePhoto={props.updatePhoto}/>
+                <ProfileEditForm updateProfile={props.updateProfile} profile={props.profile} edit={edit} updatePhoto={props.updatePhoto}/>
             </div>
             <MyPostsContainer profile={props.profile}/>
         </div>

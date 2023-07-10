@@ -5,36 +5,20 @@ import {Input, Textarea} from "../../../../common/components/FormControls/FormCo
 
 type ProfileDataFormPropsType = {
     profile: ProfileUserType | null
+    initialValues: ProfileUserType
 }
 
 export const ProfileUpdateForm = (props: InjectedFormProps<ProfileUserType, ProfileDataFormPropsType> & ProfileDataFormPropsType) => {
     return (
-        <form>
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <button>Обновить профиль</button>
+            </div>
             <div >
                 <h3>Полное имя:</h3>
                 <Field
                     name={'fullName'}
                     placeholder={'Полное имя'}
-                    component={Input}
-                    type={'text'}
-                    validate={[]}
-                />
-            </div>
-            <div >
-                <h3>Обо мне:</h3>
-                <Field
-                    name={'aboutMe'}
-                    placeholder={'Обо мне'}
-                    component={Input}
-                    type={'text'}
-                    validate={[]}
-                />
-            </div>
-            <div >
-                <h3>Обо мне:</h3>
-                <Field
-                    name={'aboutMe'}
-                    placeholder={'Обо мне'}
                     component={Input}
                     type={'text'}
                     validate={[]}

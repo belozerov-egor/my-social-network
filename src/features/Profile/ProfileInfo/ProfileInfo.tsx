@@ -31,6 +31,7 @@ const ProfileInfo = (props: PropsType) => {
                 <span className={style.name}>{props.profile.fullName}</span>
                 <ProfileStatus isOwner={props.isOwner} updateStatusTC={props.updateStatusTC} status={props.status}/>
                 {props.isOwner && <button onClick={onClickHandler}>Редактировать профиль </button>}
+
             </div>
         </div>
     )

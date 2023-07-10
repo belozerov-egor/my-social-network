@@ -1,6 +1,7 @@
 import {ActionsType, PhotosType, ProfilePageType, ProfileUserType} from "../../redux/store";
 import {profileAPI} from "../../api/api";
 import {Dispatch} from "redux";
+import {AppDispatch, AppStateType} from "../../app/redux-store";
 
 
 const initialState: ProfilePageType = {
@@ -100,6 +101,7 @@ export const updatePhotoSuccess= (photos: PhotosType)=> {
     }as const
 }
 
+
 export const getProfileTC = (userId: string) => async (dispatch: Dispatch) => {
    const result = await profileAPI.getProfile(userId)
     try {
@@ -128,6 +130,15 @@ export const updatePhoto = (photo: File) => async (dispatch: Dispatch)=> {
     }catch (e){
         console.log(e)
     }
-
-
+}
+export const updateProfile = (profile: ProfileUserType) => async (dispatch: AppDispatch, getState: ()=>AppStateType)=> {
+    const userId = getState().auth.id + ''
+    try {
+        const result = await profileAPI.updateProfile(profile)
+        if (result.data.resultCode === 0){
+        dispatch(getProfileTC(userId))
+        }
+    }catch (e){
+        console.log(e)
+    }
 }

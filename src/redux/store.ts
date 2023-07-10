@@ -2,7 +2,8 @@ import {
     AddPostActionType,
     SetStatusType,
     SetUserProfileType,
-    UpdateNewPostTextType, UpdatePhotoType,
+    UpdateNewPostTextType,
+    UpdatePhotoType,
     UpdateStatusType
 } from "../features/Profile/profile-reducer";
 import {AddMessageType} from "../features/Dialogs/dialogs-reducer";
