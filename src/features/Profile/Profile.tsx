@@ -31,7 +31,7 @@ const Profile = (props: PropsType) => {
                              isOwner={props.isOwner}
 
                 />
-                <ProfileEditForm edit={edit} updatePhoto={props.updatePhoto}/>
+                <ProfileEditForm  profile={props.profile} edit={edit} updatePhoto={props.updatePhoto}/>
             </div>
             <MyPostsContainer profile={props.profile}/>
         </div>
