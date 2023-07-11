@@ -12,6 +12,13 @@ export type AuthType = {
     captcha: string | null
 }
 
+type LoginType = {
+    id: null | number
+    login: null | string
+    email: null | string
+    isAuth: boolean
+}
+
 
 const initialState: AuthType = {
     id: null,
@@ -46,7 +53,7 @@ type ActionType = SetUsersDataType | SetCaptchaType
 type SetUsersDataType = ReturnType<typeof setUsersData>
 type SetCaptchaType = ReturnType<typeof setCaptcha>
 
-export const setUsersData = (data: AuthType) => {
+export const setUsersData = (data: LoginType) => {
     return {
         type: 'SET-USER-DATA',
         payload: {
@@ -67,12 +74,15 @@ export const authTC = () => async (dispatch: Dispatch) => {
     result.data.resultCode === 0 && dispatch(setUsersData({...result.data.data, isAuth: true}))
 }
 
-export const login = (email: string, password: string, rememberMe: boolean) => async (dispatch: AppDispatch) => {
+export const login = (email: string, password: string, rememberMe: boolean, captcha: string | null) => async (dispatch: AppDispatch) => {
     try {
-        const result = await loginApi.login(email, password, rememberMe)
+        const result = await loginApi.login(email, password, rememberMe,captcha)
         if (result.data.resultCode === 0) {
             dispatch(authTC())
         } else {
+            if (result.data.resultCode === 10) {
+                dispatch(getCaptcha())
+            }
             dispatch(stopSubmit("login", {_error: result.data.messages[0]}))
         }
     } catch (e) {
@@ -86,8 +96,7 @@ export const logout = () => async (dispatch: AppDispatch) => {
             id: null,
             login: null,
             email: null,
-            isAuth: false,
-            captcha: null
+            isAuth: false
         }))
     } catch (e) {
         console.log(e)
@@ -96,7 +105,7 @@ export const logout = () => async (dispatch: AppDispatch) => {
 export const getCaptcha = () => async (dispatch: AppDispatch) => {
     try {
         const result = await settingApi.captcha()
-        dispatch(setUsersData(result.data.data))
+        dispatch(setCaptcha(result.data.url))
     } catch (e) {
         console.log(e)
     }

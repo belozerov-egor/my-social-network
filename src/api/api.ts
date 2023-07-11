@@ -59,8 +59,8 @@ export const profileAPI = {
 }
 
 export const loginApi = {
-    login(email: string, password: string, rememberMe: boolean) {
-        return instance.post('auth/login', {email, password, rememberMe})
+    login(email: string, password: string, rememberMe: boolean, captcha: null | string = null) {
+        return instance.post('auth/login', {email, password, rememberMe, captcha})
     },
     logout() {
         return instance.delete('auth/login')
