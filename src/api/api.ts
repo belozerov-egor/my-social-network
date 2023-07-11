@@ -74,4 +74,8 @@ export const authApi = {
     }
 }
 
-
+export const settingApi = {
+    captcha() {
+        return instance.get('security/get-captcha-url')
+    }
+}

@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {authApi, loginApi, profileAPI} from "../api/api";
+import {authApi, loginApi, profileAPI, settingApi} from "../api/api";
 import {AppDispatch} from "./redux-store";
 import {stopSubmit} from "redux-form";
 
@@ -9,6 +9,7 @@ export type AuthType = {
     login: null | string
     email: null | string
     isAuth: boolean
+    captcha: string | null
 }
 
 
@@ -16,56 +17,87 @@ const initialState: AuthType = {
     id: null,
     login: null,
     email: null,
-    isAuth: false
+    isAuth: false,
+    captcha: null
 }
 
 
-export const authReducer = (state= initialState, action: ActionType): AuthType=> {
-switch (action.type) {
-    case 'SET-USER-DATA': {
-        return {
-            ...state,
-            ...action.payload.data,
+export const authReducer = (state = initialState, action: ActionType): AuthType => {
+    switch (action.type) {
+        case 'SET-USER-DATA': {
+            return {
+                ...state,
+                ...action.payload.data,
+            }
         }
-    }default: return state
+        case "SET-CAPTCHA": {
+            return {
+                ...state,
+                captcha: action.payload.captcha
+            }
+        }
+        default:
+            return state
+    }
 }
-}
 
-type ActionType = setUsersDataType
+type ActionType = SetUsersDataType | SetCaptchaType
 
-type setUsersDataType = ReturnType<typeof setUsersData>
+type SetUsersDataType = ReturnType<typeof setUsersData>
+type SetCaptchaType = ReturnType<typeof setCaptcha>
 
-export const setUsersData = (data: AuthType)=> {
-    return{
+export const setUsersData = (data: AuthType) => {
+    return {
         type: 'SET-USER-DATA',
         payload: {
             data
         }
-    }as const
+    } as const
 }
 
-export const authTC = ()=>async (dispatch: Dispatch)=> {
-  const result = await  authApi.auth()
-        result.data.resultCode === 0 && dispatch(setUsersData({...result.data.data, isAuth: true}))
+const setCaptcha = (captcha: string) => {
+    return {
+        type: 'SET-CAPTCHA',
+        payload: {captcha}
+    } as const
 }
 
-export const login = (email: string, password: string, rememberMe: boolean)=>async (dispatch: AppDispatch)=> {
+export const authTC = () => async (dispatch: Dispatch) => {
+    const result = await authApi.auth()
+    result.data.resultCode === 0 && dispatch(setUsersData({...result.data.data, isAuth: true}))
+}
+
+export const login = (email: string, password: string, rememberMe: boolean) => async (dispatch: AppDispatch) => {
     try {
-        const result = await  loginApi.login(email,password,rememberMe)
+        const result = await loginApi.login(email, password, rememberMe)
         if (result.data.resultCode === 0) {
             dispatch(authTC())
         } else {
             dispatch(stopSubmit("login", {_error: result.data.messages[0]}))
         }
-    }catch (e){
+    } catch (e) {
         console.log(e)
     }
 }
-export const logout = ()=>async (dispatch: AppDispatch)=> {
+export const logout = () => async (dispatch: AppDispatch) => {
     try {
-        const result = await  loginApi.logout()
-        result.data.resultCode === 0 && dispatch(setUsersData({id: null, login: null, email: null, isAuth: false}))
-    }catch (e){
+        const result = await loginApi.logout()
+        result.data.resultCode === 0 && dispatch(setUsersData({
+            id: null,
+            login: null,
+            email: null,
+            isAuth: false,
+            captcha: null
+        }))
+    } catch (e) {
+        console.log(e)
+    }
+}
+export const getCaptcha = () => async (dispatch: AppDispatch) => {
+    try {
+        const result = await settingApi.captcha()
+        dispatch(setUsersData(result.data.data))
+    } catch (e) {
         console.log(e)
     }
 }
