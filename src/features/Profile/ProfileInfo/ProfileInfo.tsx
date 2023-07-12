@@ -4,6 +4,7 @@ import {ProfileUserType} from "../../../redux/store";
 import preload from "../../../assets/images/Reload.svg";
 import ProfileStatus from "./ProfileStatus/ProfileStatus";
 import userIcon from "../../../assets/images/profile.svg"
+import {Preloader} from "../../../common/components/Preloader/Preloader";
 
 type PropsType= {
     profile: ProfileUserType| null;
@@ -16,7 +17,7 @@ type PropsType= {
 
 const ProfileInfo = (props: PropsType) => {
     if (!props.profile ) {
-        return <img src={preload} alt="загрузка"/>
+        return <Preloader/>
         }
     const onClickHandler = ()=> {
         props.showEdit()

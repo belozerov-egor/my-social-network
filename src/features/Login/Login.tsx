@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {connect} from "react-redux";
-import {getCaptcha, login} from "../../app/auth-reducer";
+import { login} from "../../app/auth-reducer";
 import {FormDataType, LoginReduxForm} from './LoginForm/LoginForm';
 import {AppStateType} from "../../app/redux-store";
 import {Redirect} from "react-router-dom";

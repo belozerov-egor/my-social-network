@@ -12,6 +12,7 @@ import {compose} from "redux";
 import {setInitializedApp} from "./app-reducer";
 import {AppStateType} from "./redux-store";
 import preload from "../assets/images/Reload.gif";
+import {Preloader} from "../common/components/Preloader/Preloader";
 
 type MapStateToPropsType = {
     initialized: boolean
@@ -28,7 +29,7 @@ class App extends React.Component<PropsType> {
 
     render() {
         if (!this.props.initialized) {
-            return <img src={preload} alt={'preload'}/>
+            return <Preloader/>
         }
 
         return (
